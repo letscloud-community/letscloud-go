@@ -15,6 +15,7 @@ type Instance struct {
 	TemplateLabel string      `json:"template_label"`
 	Hostname      string      `json:"hostname"`
 	RootPassword  string      `json:"initial_root_password"`
+	Location      Location    `json:"location"`
 }
 
 //IPAddress represents the address of any given instance

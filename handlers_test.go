@@ -324,6 +324,7 @@ func TestClient_Instances(t *testing.T) {
 			Booted:        true,
 			Built:         true,
 			Locked:        false,
+			Suspended:     false,
 			Memory:        1024,
 			TotalDiskSize: 256,
 			CPUS:          2,
@@ -338,12 +339,14 @@ func TestClient_Instances(t *testing.T) {
 			},
 			TemplateLabel: "centOs-7.01",
 			Hostname:      "my-hostname",
+			RootPassword:  "testpassword",
 		},
 		{
 			Identifier:    "4514254",
 			Booted:        true,
 			Built:         true,
 			Locked:        false,
+			Suspended:     false,
 			Memory:        2048,
 			TotalDiskSize: 512,
 			CPUS:          4,
@@ -358,6 +361,7 @@ func TestClient_Instances(t *testing.T) {
 			},
 			TemplateLabel: "centOs-7.01",
 			Hostname:      "test-hostname",
+			RootPassword:  "testpassword",
 		},
 	}
 
@@ -419,14 +423,14 @@ func TestClient_LocationImages(t *testing.T) {
 
 	var images = []domains.Image{
 		{
+			Slug:   "ubuntu-linux",
 			Distro: "linux",
 			OS:     "ubuntu",
-			Slug:   "ubuntu-linux",
 		},
 		{
+			Slug:   "fedora-linux",
 			Distro: "linux",
 			OS:     "fedora",
-			Slug:   "fedora-linux",
 		},
 	}
 
@@ -499,22 +503,22 @@ func TestClient_LocationPlans(t *testing.T) {
 		Slug:    "",
 		Plans: []domains.Plan{
 			{
+				Slug:         "test-plan",
 				Shortcode:    "test-plan",
 				Core:         2,
 				Memory:       512,
 				Disk:         256,
 				Bandwidth:    1024,
 				MonthlyValue: "5",
-				Slug:         "test-plan",
 			},
 			{
+				Slug:         "test-plan",
 				Shortcode:    "test-plan-2",
 				Core:         4,
 				Memory:       2,
 				Disk:         1024,
 				Bandwidth:    2048,
 				MonthlyValue: "15",
-				Slug:         "test-plan-2",
 			},
 		},
 	}
@@ -594,16 +598,16 @@ func TestClient_Locations(t *testing.T) {
 
 	var locations = []domains.Location{
 		{
+			Slug:      "chn-shg",
 			Country:   "China",
 			City:      "Sanghai",
 			Available: true,
-			Slug:      "chn-shg",
 		},
 		{
+			Slug:      "chn-zhg",
 			Country:   "China",
 			City:      "Zhingjyu",
 			Available: true,
-			Slug:      "chn-zhg",
 		},
 	}
 
@@ -664,8 +668,8 @@ func TestClient_NewSSHKey(t *testing.T) {
 	mclient := httpclient.NewMockRequester(mc)
 
 	var newKey = domains.SSHKey{
-		Title:      "My SSH Key",
 		Slug:       "my-ssh-key",
+		Title:      "My SSH Key",
 		PublicKey:  "<random-generated>",
 		PrivateKey: "<random-generated>",
 	}
@@ -678,8 +682,8 @@ func TestClient_NewSSHKey(t *testing.T) {
 	})
 
 	var newKeyV2 = domains.SSHKey{
-		Title:      "My SSH Key",
 		Slug:       "my-ssh-key",
+		Title:      "My SSH Key",
 		PublicKey:  "<this-is-a-test-key>",
 		PrivateKey: "<random-generated>",
 	}
@@ -1086,8 +1090,8 @@ func TestClient_SSHKey(t *testing.T) {
 
 	sshKey := domains.SSHKey{
 
-		Title:      "New SSH Key",
 		Slug:       "new-ssh-key",
+		Title:      "New SSH Key",
 		PublicKey:  "<this-is-a-public-key>",
 		PrivateKey: "<this-is-a-purivate-key>",
 	}
@@ -1165,8 +1169,8 @@ func TestClient_SSHKeys(t *testing.T) {
 
 	sshKeys := []domains.SSHKey{
 		{
-			Title:      "New SSH Key",
 			Slug:       "new-ssh-key",
+			Title:      "New SSH Key",
 			PublicKey:  "<this-is-a-public-key>",
 			PrivateKey: "<this-is-a-purivate-key>",
 		},

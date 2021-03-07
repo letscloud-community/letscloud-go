@@ -63,7 +63,7 @@ func (c *LetsCloud) Locations() ([]domains.Location, error) {
 //LocationPlans fetches all the pricing plans of the given location
 func (c *LetsCloud) LocationPlans(name string) ([]domains.Plan, error) {
 	if name == "" {
-		return nil, errors.New("please provide a valid location name")
+		return nil, errors.New("Please provide a valid location slug")
 	}
 
 	req, err := c.requester.NewRequest(http.MethodGet, baseURL+fmt.Sprintf("/locations/%s/plans", name), nil)
@@ -181,7 +181,7 @@ func (c *LetsCloud) SSHKeys() ([]domains.SSHKey, error) {
 //SSHKey retrieves details of a given SSH key of current user
 func (c *LetsCloud) SSHKey(title string) (*domains.SSHKey, error) {
 	if title == "" {
-		return nil, errors.New("please provide a valid ssh key title")
+		return nil, errors.New("Please provide a valid ssh key title")
 	}
 
 	req, err := c.requester.NewRequest(http.MethodGet, baseURL+"/sshkeys/"+title, nil)
@@ -211,7 +211,7 @@ func (c *LetsCloud) SSHKey(title string) (*domains.SSHKey, error) {
 //DeleteSSHKey deletes an existing SSH key of current user
 func (c *LetsCloud) DeleteSSHKey(slug string) error {
 	if slug == "" {
-		return errors.New("please provide a valid slug")
+		return errors.New("Please provide a valid slug")
 	}
 
 	req, err := c.requester.NewRequest(http.MethodDelete, baseURL+"/sshkeys", domains.SSHKeyDelRequest{Slug: slug})
@@ -267,11 +267,11 @@ func (c *LetsCloud) Instances() ([]domains.Instance, error) {
 //CreateInstance creates a new instance
 func (c *LetsCloud) CreateInstance(request *domains.CreateInstanceRequest) error {
 	if request == nil {
-		return errors.New("please provide valid data in order to create instance")
+		return errors.New("Please provide valid data in order to create instance")
 	}
 
 	if *request == (domains.CreateInstanceRequest{}) {
-		return errors.New("please provide valid data in order to create instance")
+		return errors.New("Please provide valid data in order to create instance")
 	}
 
 	if err := validateStruct(*request); err != nil {
@@ -305,7 +305,7 @@ func (c *LetsCloud) CreateInstance(request *domains.CreateInstanceRequest) error
 //Instance gets details about a particular instance of the current user
 func (c *LetsCloud) Instance(id string) (*domains.Instance, error) {
 	if id == "" {
-		return nil, errors.New("please provide a valid id")
+		return nil, errors.New("Please provide a valid instance identifier")
 	}
 
 	req, err := c.requester.NewRequest(http.MethodGet, baseURL+"/instances/"+id, nil)
@@ -335,7 +335,7 @@ func (c *LetsCloud) Instance(id string) (*domains.Instance, error) {
 //DeleteInstance deletes any existing instance of the user
 func (c *LetsCloud) DeleteInstance(id string) error {
 	if id == "" {
-		return errors.New("please provide a valid id")
+		return errors.New("Please provide a valid instance identifier")
 	}
 
 	req, err := c.requester.NewRequest(http.MethodDelete, baseURL+"/instances/"+id, nil)
@@ -347,6 +347,8 @@ func (c *LetsCloud) DeleteInstance(id string) error {
 	if err != nil {
 		return err
 	}
+
+	fmt.Println(b)
 
 	var out domains.CommonResponse
 
@@ -366,7 +368,7 @@ func (c *LetsCloud) DeleteInstance(id string) error {
 //PowerOnInstance turns on any existing instance of the current user
 func (c *LetsCloud) PowerOnInstance(id string) error {
 	if id == "" {
-		return errors.New("please provide valid id")
+		return errors.New("Please provide a valid instance identifier")
 	}
 
 	req, err := c.requester.NewRequest(http.MethodPut, baseURL+"/instances/"+id+"/power-on", nil)
@@ -397,7 +399,7 @@ func (c *LetsCloud) PowerOnInstance(id string) error {
 //PowerOffInstance turns off any existing instance of the current user
 func (c *LetsCloud) PowerOffInstance(id string) error {
 	if id == "" {
-		return errors.New("please provide valid id")
+		return errors.New("Please provide a valid instance identifier")
 	}
 
 	req, err := c.requester.NewRequest(http.MethodPut, baseURL+"/instances/"+id+"/power-off", nil)
@@ -428,7 +430,7 @@ func (c *LetsCloud) PowerOffInstance(id string) error {
 //RebootInstance as the name suggests, it reboots the instance
 func (c *LetsCloud) RebootInstance(id string) error {
 	if id == "" {
-		return errors.New("please provide valid id")
+		return errors.New("Please provide a valid instance identifier")
 	}
 
 	req, err := c.requester.NewRequest(http.MethodPut, baseURL+"/instances/"+id+"/reboot", nil)
@@ -459,7 +461,7 @@ func (c *LetsCloud) RebootInstance(id string) error {
 //ResetPasswordInstance is used for resetting the forgotten password of any instance
 func (c *LetsCloud) ResetPasswordInstance(id, newPassword string) error {
 	if id == "" || newPassword == "" {
-		return errors.New("please provide valid id and new password")
+		return errors.New("Please provide a valid instance identifier and new password")
 	}
 
 	req, err := c.requester.NewRequest(http.MethodPut, baseURL+"/instances/"+id+"/reset-password",
