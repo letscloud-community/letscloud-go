@@ -53,6 +53,10 @@ func (h *httpClient) SendRequest(req *http.Request) ([]byte, error) {
 	}
 	defer resp.Body.Close()
 
+	if resp.StatusCode == http.StatusUnauthorized {
+		return nil, errors.New("401 Unauthorized: Please check your API key.")
+	}
+
 	if resp.StatusCode != http.StatusOK {
 		return ioutil.ReadAll(resp.Body)
 	}
