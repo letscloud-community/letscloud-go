@@ -15,7 +15,7 @@ type GetLocationsResponse struct {
 //GetLocationPlansResponse represents the response data from the location plans GET request
 type GetLocationPlansResponse struct {
 	CommonResponse
-	Data LocationPlanWrapper `json:"data"`
+	Data []LocationPlanWrapper `json:"data"`
 }
 
 //GetLocationImagesResponse represents the response data from the locations images GET request
