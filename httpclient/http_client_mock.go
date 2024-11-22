@@ -84,7 +84,7 @@ func (m *MockRequester) SetAPIKey(t string) {
 }
 
 // SetAPIKey indicates an expected call of SetAPIKey
-func (mr *MockRequesterMockRecorder) SetApiKey(t interface{}) *gomock.Call {
+func (mr *MockRequesterMockRecorder) SetAPIKey(t interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetAPIKey", reflect.TypeOf((*MockRequester)(nil).SetAPIKey), t)
 }
@@ -98,7 +98,7 @@ func (m *MockRequester) APIKey() string {
 }
 
 // APIKey indicates an expected call of APIKey
-func (mr *MockRequesterMockRecorder) ApiKey() *gomock.Call {
+func (mr *MockRequesterMockRecorder) APIKey() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "APIKey", reflect.TypeOf((*MockRequester)(nil).APIKey))
 }
