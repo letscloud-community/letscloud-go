@@ -9,13 +9,13 @@ import (
 	"github.com/letscloud-community/letscloud-go/httpclient"
 )
 
-func TestLetsCloud_APiKey(t *testing.T) {
+func TestLetsCloud_APIKey(t *testing.T) {
 	mc := gomock.NewController(t)
 	defer mc.Finish()
 
 	mclient := httpclient.NewMockRequester(mc)
 
-	mclient.EXPECT().ApiKey().Return(TEST_API_KEY)
+	mclient.EXPECT().APIKey().Return(TEST_API_KEY)
 
 	type fields struct {
 		debug     bool
@@ -41,20 +41,20 @@ func TestLetsCloud_APiKey(t *testing.T) {
 				debug:     tt.fields.debug,
 				requester: tt.fields.requester,
 			}
-			if got := c.APiKey(); got != tt.want {
-				t.Errorf("APiKey() = %v, want %v", got, tt.want)
+			if got := c.APIKey(); got != tt.want {
+				t.Errorf("APIKey() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestLetsCloud_SetApiKey(t *testing.T) {
+func TestLetsCloud_SetAPIKey(t *testing.T) {
 	mc := gomock.NewController(t)
 	defer mc.Finish()
 
 	mclient := httpclient.NewMockRequester(mc)
 
-	mclient.EXPECT().SetApiKey(gomock.Any())
+	mclient.EXPECT().SetAPIKey(gomock.Any())
 
 	type fields struct {
 		debug     bool

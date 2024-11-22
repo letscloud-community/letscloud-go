@@ -497,28 +497,28 @@ func TestClient_LocationPlans(t *testing.T) {
 
 	mclient := httpclient.NewMockRequester(mc)
 
-	var plans = domains.LocationPlanWrapper{
-		Country: "United",
-		City:    "Sanghai",
-		Slug:    "",
-		Plans: []domains.Plan{
-			{
-				Slug:         "test-plan",
-				Shortcode:    "test-plan",
-				Core:         2,
-				Memory:       512,
-				Disk:         256,
-				Bandwidth:    1024,
-				MonthlyValue: "5",
-			},
-			{
-				Slug:         "test-plan",
-				Shortcode:    "test-plan-2",
-				Core:         4,
-				Memory:       2,
-				Disk:         1024,
-				Bandwidth:    2048,
-				MonthlyValue: "15",
+	mockPlans := []domains.LocationPlanWrapper{
+		{
+			Country: "United States",
+			City:    "Miami",
+			Slug:    "MIA2",
+			Plans: []domains.Plan{
+				{
+					Slug:         "1vcpu-1gb-10ssd",
+					Core:         1,
+					Memory:       1024,
+					Disk:         10,
+					Bandwidth:    1000,
+					MonthlyValue: "5.00",
+				},
+				{
+					Slug:         "2vcpu-4gb-30ssd",
+					Core:         2,
+					Memory:       4096,
+					Disk:         30,
+					Bandwidth:    2000,
+					MonthlyValue: "15.00",
+				},
 			},
 		},
 	}
@@ -526,8 +526,9 @@ func TestClient_LocationPlans(t *testing.T) {
 	plansResp, _ := json.Marshal(domains.GetLocationPlansResponse{
 		CommonResponse: domains.CommonResponse{
 			Success: true,
+			Status: 200,
 		},
-		Data: plans,
+		Data: mockPlans,
 	})
 
 	mclient.EXPECT().NewRequest(gomock.Any(), gomock.Any(), gomock.Any()).Return(new(http.Request), nil)

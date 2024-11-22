@@ -19,6 +19,7 @@ type CreateInstanceRequest struct {
 	Label        string `json:"label"`
 	ImageSlug    string `json:"image_slug"`
 	SSHSlug      string `json:"ssh_slug,omitempty"`
+	Password     string `json:"password,omitempty" validate:"omitempty,min=8"`
 }
 
 //InstanceResetPasswordRequest is used for sending PUT Request to reset the password of an existing instance
