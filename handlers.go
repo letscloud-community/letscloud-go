@@ -87,7 +87,12 @@ func (c *LetsCloud) LocationPlans(name string) ([]domains.Plan, error) {
 		return nil, errors.New(out.Message)
 	}
 
-	return out.Data.Plans, nil
+	var allPlans []domains.Plan
+	for _, location := range out.Data {
+		allPlans = append(allPlans, location.Plans...)
+	}
+
+	return allPlans, nil
 }
 
 //LocationImages fetches all the VM images of the given location
@@ -348,7 +353,6 @@ func (c *LetsCloud) DeleteInstance(id string) error {
 		return err
 	}
 
-	fmt.Println(b)
 
 	var out domains.CommonResponse
 
