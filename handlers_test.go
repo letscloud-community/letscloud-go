@@ -23,7 +23,7 @@ func TestClient_CreateInstance(t *testing.T) {
 	mclient := httpclient.NewMockRequester(mc)
 
 	mclient.EXPECT().NewRequest(gomock.Any(), gomock.Any(), gomock.Any()).Return(new(http.Request), nil)
-	mclient.EXPECT().SendRequest(gomock.Any()).Return([]byte(`{"success": true, "data": {"identifier": "asasas"}}`), nil)
+	mclient.EXPECT().SendRequest(gomock.Any()).Return([]byte(`{"success": true, "message": "Instance successfully created"}`), nil)
 
 	mclient.EXPECT().NewRequest(gomock.Any(), gomock.Any(), gomock.Any()).Return(new(http.Request), nil)
 	mclient.EXPECT().SendRequest(gomock.Any()).Return(nil, errors.New("server not reachable"))
@@ -72,7 +72,7 @@ func TestClient_CreateInstance(t *testing.T) {
 			},
 			args: args{
 				request: &domains.CreateInstanceRequest{
-					Label: "aaa",
+					Label: "Label Example",
 				},
 			},
 			wantErr: true,
@@ -86,11 +86,11 @@ func TestClient_CreateInstance(t *testing.T) {
 			},
 			args: args{
 				request: &domains.CreateInstanceRequest{
-					LocationSlug: "MIA2",
-					PlanSlug:     "2vcpu-2gb",
-					Hostname:     "my-host",
-					Label:        "aaa",
-					ImageSlug:    "centos-7.1",
+					LocationSlug: "MIA1",
+					PlanSlug:     "1vcpu-1gb-10ssd",
+					Hostname:     "Hostname Example",
+					Label:        "Label Example",
+					ImageSlug:    "ubuntu-20.04-x86_64",
 				},
 			},
 			wantErr: false,
@@ -104,11 +104,11 @@ func TestClient_CreateInstance(t *testing.T) {
 			},
 			args: args{
 				request: &domains.CreateInstanceRequest{
-					LocationSlug: "MIA2",
-					PlanSlug:     "2vcpu-2gb",
-					Hostname:     "my-host",
-					Label:        "aaa",
-					ImageSlug:    "centos-7.1",
+					LocationSlug: "MIA1",
+					PlanSlug:     "1vcpu-1gb-10ssd",
+					Hostname:     "Hostname Example",
+					Label:        "Label Example",
+					ImageSlug:    "ubuntu-20.04-x86_64",
 				},
 			},
 			wantErr: true,
@@ -134,7 +134,7 @@ func TestClient_DeleteInstance(t *testing.T) {
 	mclient := httpclient.NewMockRequester(mc)
 
 	mclient.EXPECT().NewRequest(gomock.Any(), gomock.Any(), gomock.Any()).Return(new(http.Request), nil)
-	mclient.EXPECT().SendRequest(gomock.Any()).Return([]byte(`{"success": true, "message": "instace deleted successfully"}`), nil)
+	mclient.EXPECT().SendRequest(gomock.Any()).Return([]byte(`{"success": true, "message": "Instance successfully deleted"}`), nil)
 
 	type fields struct {
 		token     string
@@ -142,7 +142,7 @@ func TestClient_DeleteInstance(t *testing.T) {
 		requester Requester
 	}
 	type args struct {
-		id string
+		identifier string
 	}
 	tests := []struct {
 		name    string
@@ -151,7 +151,7 @@ func TestClient_DeleteInstance(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "passing no id",
+			name: "passing no identifier",
 			fields: fields{
 				token:     TEST_API_KEY,
 				debug:     false,
@@ -167,7 +167,7 @@ func TestClient_DeleteInstance(t *testing.T) {
 				requester: mclient,
 			},
 			args: args{
-				id: "asas45454a",
+				identifier: "identifier-example",
 			},
 			wantErr: false,
 		},
@@ -178,7 +178,7 @@ func TestClient_DeleteInstance(t *testing.T) {
 				debug:     tt.fields.debug,
 				requester: tt.fields.requester,
 			}
-			if err := c.DeleteInstance(tt.args.id); (err != nil) != tt.wantErr {
+			if err := c.DeleteInstance(tt.args.identifier); (err != nil) != tt.wantErr {
 				t.Errorf("DeleteInstance() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
@@ -192,7 +192,7 @@ func TestClient_DeleteSSHKey(t *testing.T) {
 	mclient := httpclient.NewMockRequester(mc)
 
 	mclient.EXPECT().NewRequest(gomock.Any(), gomock.Any(), gomock.Any()).Return(new(http.Request), nil)
-	mclient.EXPECT().SendRequest(gomock.Any()).Return([]byte(`{"success": true, "message": "ssh key deleted successfully"}`), nil)
+	mclient.EXPECT().SendRequest(gomock.Any()).Return([]byte(`{"success": true, "message": "SSH Key was successfully deleted!"}`), nil)
 
 	type fields struct {
 		token     string
@@ -226,7 +226,7 @@ func TestClient_DeleteSSHKey(t *testing.T) {
 				requester: mclient,
 			},
 			args: args{
-				slug: "my-ssh",
+				slug: "your-ssh-key-slug",
 			},
 			wantErr: false,
 		},
@@ -251,7 +251,7 @@ func TestClient_Instance(t *testing.T) {
 	mclient := httpclient.NewMockRequester(mc)
 
 	mclient.EXPECT().NewRequest(gomock.Any(), gomock.Any(), gomock.Any()).Return(new(http.Request), nil)
-	mclient.EXPECT().SendRequest(gomock.Any()).Return([]byte(`{"success": true, "data": {"identifier": "asasas45455"}}`), nil)
+	mclient.EXPECT().SendRequest(gomock.Any()).Return([]byte(`{"success": true, "data": {"identifier": "identifier-example"}}`), nil)
 
 	type fields struct {
 		token     string
@@ -259,7 +259,7 @@ func TestClient_Instance(t *testing.T) {
 		requester Requester
 	}
 	type args struct {
-		id string
+		identifier string
 	}
 	tests := []struct {
 		name    string
@@ -286,10 +286,10 @@ func TestClient_Instance(t *testing.T) {
 				requester: mclient,
 			},
 			args: args{
-				id: "asasas45455",
+				identifier: "identifier-example",
 			},
 			want: &domains.Instance{
-				Identifier: "asasas45455",
+				Identifier: "identifier-example",
 			},
 			wantErr: false,
 		},
@@ -300,7 +300,7 @@ func TestClient_Instance(t *testing.T) {
 				debug:     tt.fields.debug,
 				requester: tt.fields.requester,
 			}
-			got, err := c.Instance(tt.args.id)
+			got, err := c.Instance(tt.args.identifier)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Instance() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -320,15 +320,15 @@ func TestClient_Instances(t *testing.T) {
 
 	var instances = []domains.Instance{
 		{
-			Identifier:    "asasas",
+			Identifier:    "identifier-example",
 			Booted:        true,
 			Built:         true,
 			Locked:        false,
 			Suspended:     false,
 			Memory:        1024,
-			TotalDiskSize: 256,
-			CPUS:          2,
-			Label:         "my-label",
+			TotalDiskSize: 10,
+			CPUS:          1,
+			Label:         "Label Example",
 			IPAddresses: []domains.IPAddress{
 				{
 					Address: "192.168.3.5",
@@ -337,9 +337,14 @@ func TestClient_Instances(t *testing.T) {
 					Address: "172.168.3.5",
 				},
 			},
-			TemplateLabel: "centOs-7.01",
-			Hostname:      "my-hostname",
+			TemplateLabel: "Ubuntu 20.04 x64",
+			Hostname:      "Hostname Example",
 			RootPassword:  "testpassword",
+			Location: domains.Location{
+				Slug:    "MIA1",
+				Country: "United States",
+				City:    "Miami",
+			},
 		},
 		{
 			Identifier:    "4514254",
@@ -348,20 +353,25 @@ func TestClient_Instances(t *testing.T) {
 			Locked:        false,
 			Suspended:     false,
 			Memory:        2048,
-			TotalDiskSize: 512,
-			CPUS:          4,
-			Label:         "test-label",
+			TotalDiskSize: 20,
+			CPUS:          2,
+			Label:         "Label Example 2",
 			IPAddresses: []domains.IPAddress{
 				{
-					Address: "192.168.3.5",
+					Address: "192.168.3.6",
 				},
 				{
-					Address: "172.168.3.5",
+					Address: "172.168.3.6",
 				},
 			},
-			TemplateLabel: "centOs-7.01",
-			Hostname:      "test-hostname",
+			TemplateLabel: "Ubuntu 20.04 x64",
+			Hostname:      "Hostname Example 2",
 			RootPassword:  "testpassword",
+			Location: domains.Location{
+				Slug:    "MIA1",
+				Country: "United States",
+				City:    "Miami",
+			},
 		},
 	}
 
@@ -423,14 +433,14 @@ func TestClient_LocationImages(t *testing.T) {
 
 	var images = []domains.Image{
 		{
-			Slug:   "ubuntu-linux",
-			Distro: "linux",
-			OS:     "ubuntu",
+			Slug:   "rocky-9.3-x86_64",
+			Distro: "Rocky 9.3 x86_64",
+			OS:     "rocky",
 		},
 		{
-			Slug:   "fedora-linux",
-			Distro: "linux",
-			OS:     "fedora",
+			Slug:   "ubuntu-22.04-x86_64",
+			Distro: "Ubuntu 22.04 x86_64",
+			OS:     "ubuntu",
 		},
 	}
 
@@ -450,7 +460,7 @@ func TestClient_LocationImages(t *testing.T) {
 		requester Requester
 	}
 	type args struct {
-		name string
+		slug string
 	}
 	tests := []struct {
 		name    string
@@ -467,7 +477,7 @@ func TestClient_LocationImages(t *testing.T) {
 				requester: mclient,
 			},
 			args: args{
-				name: "MIA2",
+				slug: "MIA1",
 			},
 			want:    images,
 			wantErr: false,
@@ -479,7 +489,7 @@ func TestClient_LocationImages(t *testing.T) {
 				debug:     tt.fields.debug,
 				requester: tt.fields.requester,
 			}
-			got, err := c.LocationImages(tt.args.name)
+			got, err := c.LocationImages(tt.args.slug)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("LocationImages() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -497,14 +507,16 @@ func TestClient_LocationPlans(t *testing.T) {
 
 	mclient := httpclient.NewMockRequester(mc)
 
-	mockPlans := []domains.LocationPlanWrapper{
+	var plans = []domains.LocationPlanWrapper{
 		{
 			Country: "United States",
 			City:    "Miami",
-			Slug:    "MIA2",
+			Slug:    "MIA1",
 			Plans: []domains.Plan{
 				{
 					Slug:         "1vcpu-1gb-10ssd",
+					CurrencyCode: "USD",
+					Shortcode:    "$",
 					Core:         1,
 					Memory:       1024,
 					Disk:         10,
@@ -512,12 +524,14 @@ func TestClient_LocationPlans(t *testing.T) {
 					MonthlyValue: "5.00",
 				},
 				{
-					Slug:         "2vcpu-4gb-30ssd",
-					Core:         2,
-					Memory:       4096,
-					Disk:         30,
-					Bandwidth:    2000,
-					MonthlyValue: "15.00",
+					Slug:         "1vcpu-2gb-20ssd",
+					CurrencyCode: "USD",
+					Shortcode:    "$",
+					Core:         1,
+					Memory:       2048,
+					Disk:         20,
+					Bandwidth:    1500,
+					MonthlyValue: "10.00",
 				},
 			},
 		},
@@ -540,7 +554,7 @@ func TestClient_LocationPlans(t *testing.T) {
 		requester Requester
 	}
 	type args struct {
-		name string
+		slug string
 	}
 	tests := []struct {
 		name    string
@@ -567,9 +581,9 @@ func TestClient_LocationPlans(t *testing.T) {
 				requester: mclient,
 			},
 			args: args{
-				name: "MIA2",
+				slug: "MIA1",
 			},
-			want:    plans.Plans,
+			want:    plans[0].Plans,
 			wantErr: false,
 		},
 	}
@@ -579,7 +593,7 @@ func TestClient_LocationPlans(t *testing.T) {
 				debug:     tt.fields.debug,
 				requester: tt.fields.requester,
 			}
-			got, err := c.LocationPlans(tt.args.name)
+			got, err := c.LocationPlans(tt.args.slug)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("LocationPlans() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -599,16 +613,16 @@ func TestClient_Locations(t *testing.T) {
 
 	var locations = []domains.Location{
 		{
-			Slug:      "chn-shg",
-			Country:   "China",
-			City:      "Sanghai",
+			Slug:      "MIA1",
+			Country:   "United States",
+			City:      "Miami",
 			Available: true,
 		},
 		{
-			Slug:      "chn-zhg",
-			Country:   "China",
-			City:      "Zhingjyu",
-			Available: true,
+			Slug:      "DAL1",
+			Country:   "United States",
+			City:      "Dallas",
+			Available: false,
 		},
 	}
 
@@ -792,7 +806,7 @@ func TestClient_PowerOffInstance(t *testing.T) {
 		requester Requester
 	}
 	type args struct {
-		id string
+		identifier string
 	}
 	tests := []struct {
 		name    string
@@ -816,7 +830,7 @@ func TestClient_PowerOffInstance(t *testing.T) {
 				debug:     false,
 				requester: mclient,
 			},
-			args:    args{id: "asasasas"},
+			args:    args{identifier: "identifier-example"},
 			wantErr: false,
 		},
 	}
@@ -826,7 +840,7 @@ func TestClient_PowerOffInstance(t *testing.T) {
 				debug:     tt.fields.debug,
 				requester: tt.fields.requester,
 			}
-			if err := c.PowerOffInstance(tt.args.id); (err != nil) != tt.wantErr {
+			if err := c.PowerOffInstance(tt.args.identifier); (err != nil) != tt.wantErr {
 				t.Errorf("PowerOffInstance() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
@@ -853,7 +867,7 @@ func TestClient_PowerOnInstance(t *testing.T) {
 		requester Requester
 	}
 	type args struct {
-		id string
+		identifier string
 	}
 	tests := []struct {
 		name    string
@@ -877,7 +891,7 @@ func TestClient_PowerOnInstance(t *testing.T) {
 				debug:     false,
 				requester: mclient,
 			},
-			args:    args{id: "asasasas"},
+			args:    args{identifier: "identifier-example"},
 			wantErr: false,
 		},
 	}
@@ -887,7 +901,7 @@ func TestClient_PowerOnInstance(t *testing.T) {
 				debug:     tt.fields.debug,
 				requester: tt.fields.requester,
 			}
-			if err := c.PowerOnInstance(tt.args.id); (err != nil) != tt.wantErr {
+			if err := c.PowerOnInstance(tt.args.identifier); (err != nil) != tt.wantErr {
 				t.Errorf("PowerOnInstance() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
@@ -902,9 +916,10 @@ func TestClient_Profile(t *testing.T) {
 
 	var profile = domains.Profile{
 		Name:        "John Doe",
-		CompanyName: "Microloft",
-		Email:       "johndoe@microloft.com",
-		Balance:     "15.5",
+		CompanyName: "Company Name",
+		Email:       "johndoe@test.com",
+		Currency:    "$",
+		Balance:     "999.99",
 	}
 
 	getProfileResp, _ := json.Marshal(domains.GetProfileResponse{
@@ -977,7 +992,7 @@ func TestClient_RebootInstance(t *testing.T) {
 		requester Requester
 	}
 	type args struct {
-		id string
+		identifier string
 	}
 	tests := []struct {
 		name    string
@@ -1001,7 +1016,7 @@ func TestClient_RebootInstance(t *testing.T) {
 				debug:     false,
 				requester: mclient,
 			},
-			args:    args{id: "asasasas"},
+			args:    args{identifier: "asasasas"},
 			wantErr: false,
 		},
 	}
@@ -1011,7 +1026,7 @@ func TestClient_RebootInstance(t *testing.T) {
 				debug:     tt.fields.debug,
 				requester: tt.fields.requester,
 			}
-			if err := c.RebootInstance(tt.args.id); (err != nil) != tt.wantErr {
+			if err := c.RebootInstance(tt.args.identifier); (err != nil) != tt.wantErr {
 				t.Errorf("RebootInstance() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
@@ -1038,7 +1053,7 @@ func TestClient_ResetPasswordInstance(t *testing.T) {
 		requester Requester
 	}
 	type args struct {
-		id          string
+		identifier  string
 		newPassword string
 	}
 	tests := []struct {
@@ -1064,7 +1079,7 @@ func TestClient_ResetPasswordInstance(t *testing.T) {
 				requester: mclient,
 			},
 			args: args{
-				id:          "asas",
+				identifier:  "identifier-example",
 				newPassword: "<new-password>",
 			},
 			wantErr: false,
@@ -1076,7 +1091,7 @@ func TestClient_ResetPasswordInstance(t *testing.T) {
 				debug:     tt.fields.debug,
 				requester: tt.fields.requester,
 			}
-			if err := c.ResetPasswordInstance(tt.args.id, tt.args.newPassword); (err != nil) != tt.wantErr {
+			if err := c.ResetPasswordInstance(tt.args.identifier, tt.args.newPassword); (err != nil) != tt.wantErr {
 				t.Errorf("ResetPasswordInstance() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
@@ -1113,7 +1128,7 @@ func TestClient_SSHKey(t *testing.T) {
 		requester Requester
 	}
 	type args struct {
-		title string
+		slug string
 	}
 	tests := []struct {
 		name    string
@@ -1139,7 +1154,7 @@ func TestClient_SSHKey(t *testing.T) {
 				debug:     false,
 				requester: mclient,
 			},
-			args:    args{title: "new-ssh-key"},
+			args:    args{slug: "new-ssh-key"},
 			want:    &sshKey,
 			wantErr: false,
 		},
@@ -1150,7 +1165,7 @@ func TestClient_SSHKey(t *testing.T) {
 				debug:     tt.fields.debug,
 				requester: tt.fields.requester,
 			}
-			got, err := c.SSHKey(tt.args.title)
+			got, err := c.SSHKey(tt.args.slug)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("SSHKey() error = %v, wantErr %v", err, tt.wantErr)
 				return

@@ -1,17 +1,17 @@
 package domains
 
-//SSHKeyCreateRequest is used for sending POST Request to create new SSH Key
+// SSHKeyCreateRequest is used for sending POST Request to create new SSH Key
 type SSHKeyCreateRequest struct {
 	Title string `json:"title"`
 	Key   string `json:"key,omitempty"`
 }
 
-//SSHKeyDelRequest is used for sending DELETE Request to delete an existing slug
+// SSHKeyDelRequest is used for sending DELETE Request to delete an existing slug
 type SSHKeyDelRequest struct {
 	Slug string `json:"slug,omitempty"`
 }
 
-//CreateInstanceRequest is used for sending POST Request to create a new instance
+// CreateInstanceRequest is used for sending POST Request to create a new instance
 type CreateInstanceRequest struct {
 	LocationSlug string `json:"location_slug"`
 	PlanSlug     string `json:"plan_slug"`
@@ -22,7 +22,22 @@ type CreateInstanceRequest struct {
 	Password     string `json:"password,omitempty" validate:"omitempty,min=8"`
 }
 
-//InstanceResetPasswordRequest is used for sending PUT Request to reset the password of an existing instance
+// InstanceResetPasswordRequest is used for sending PUT Request to reset the password of an existing instance
 type InstanceResetPasswordRequest struct {
 	Password string `json:"password,omitempty"`
+}
+
+// SnapshotCreateRequest is used for sending POST Request to create a new snapshot
+type SnapshotCreateRequest struct {
+	Label string `json:"label"`
+}
+
+// SnapshotDeleteRequest is used for sending DELETE Request to delete an existing snapshot
+type SnapshotDeleteRequest struct {
+	ImageSlug string `json:"image_slug,omitempty"`
+}
+
+// SnapshotUpdateRequest is used for sending PUT Request to update an existing snapshot
+type SnapshotUpdateRequest struct {
+	Label string `json:"label"`
 }
