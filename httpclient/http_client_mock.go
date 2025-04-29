@@ -77,6 +77,18 @@ func (mr *MockRequesterMockRecorder) SetTimeout(d interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetTimeout", reflect.TypeOf((*MockRequester)(nil).SetTimeout), d)
 }
 
+// SetBaseURL mocks base method
+func (m *MockRequester) SetBaseURL(url string) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "SetBaseURL", url)
+}
+
+// SetBaseURL indicates an expected call of SetBaseURL
+func (mr *MockRequesterMockRecorder) SetBaseURL(url interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetBaseURL", reflect.TypeOf((*MockRequester)(nil).SetBaseURL), url)
+}
+
 // SetAPIKey mocks base method
 func (m *MockRequester) SetAPIKey(t string) {
 	m.ctrl.T.Helper()
@@ -84,7 +96,7 @@ func (m *MockRequester) SetAPIKey(t string) {
 }
 
 // SetAPIKey indicates an expected call of SetAPIKey
-func (mr *MockRequesterMockRecorder) SetApiKey(t interface{}) *gomock.Call {
+func (mr *MockRequesterMockRecorder) SetAPIKey(t interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetAPIKey", reflect.TypeOf((*MockRequester)(nil).SetAPIKey), t)
 }
@@ -98,7 +110,7 @@ func (m *MockRequester) APIKey() string {
 }
 
 // APIKey indicates an expected call of APIKey
-func (mr *MockRequesterMockRecorder) ApiKey() *gomock.Call {
+func (mr *MockRequesterMockRecorder) APIKey() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "APIKey", reflect.TypeOf((*MockRequester)(nil).APIKey))
 }

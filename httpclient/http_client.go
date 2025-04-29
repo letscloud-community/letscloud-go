@@ -10,21 +10,39 @@ import (
 )
 
 const (
-	defaultTimeout = time.Second * 10
+	defaultTimeout = time.Second * 60
+	defaultBaseURL = "https://core.letscloud.io/api"
 )
 
 type httpClient struct {
-	apiKey string
-	httpcl *http.Client
+	apiKey  string
+	baseURL string
+	httpcl  *http.Client
 }
 
 func (h *httpClient) APIKey() string {
 	return h.apiKey
 }
 
-func (h *httpClient) NewRequest(method, url string, data interface{}) (*http.Request, error) {
+func (h *httpClient) SetAPIKey(t string) {
+	h.apiKey = t
+}
+
+func (h *httpClient) SetBaseURL(url string) {
+	h.baseURL = url
+}
+
+func (h *httpClient) SetTimeout(d time.Duration) {
+	h.httpcl.Timeout = d
+}
+
+func (h *httpClient) NewRequest(method, endpoint string, data interface{}) (*http.Request, error) {
 	if h.apiKey == "" {
-		return nil, errors.New("No API Key found. Provide your api-key!")
+		return nil, errors.New("no api key found. provide your api-key")
+	}
+
+	if h.baseURL == "" {
+		h.baseURL = defaultBaseURL
 	}
 
 	b, err := json.Marshal(data)
@@ -32,7 +50,7 @@ func (h *httpClient) NewRequest(method, url string, data interface{}) (*http.Req
 		return nil, err
 	}
 
-	req, err := http.NewRequest(method, url, bytes.NewReader(b))
+	req, err := http.NewRequest(method, h.baseURL+endpoint, bytes.NewReader(b))
 	if err != nil {
 		return nil, err
 	}
@@ -53,6 +71,10 @@ func (h *httpClient) SendRequest(req *http.Request) ([]byte, error) {
 	}
 	defer resp.Body.Close()
 
+	if resp.StatusCode == http.StatusUnauthorized {
+		return nil, errors.New("401 unauthorized: please check your api key")
+	}
+
 	if resp.StatusCode != http.StatusOK {
 		return ioutil.ReadAll(resp.Body)
 	}
@@ -64,18 +86,11 @@ func (h *httpClient) Do(req *http.Request) (*http.Response, error) {
 	return h.httpcl.Do(req)
 }
 
-func (h *httpClient) SetTimeout(d time.Duration) {
-	h.httpcl.Timeout = d
-}
-
-func (h *httpClient) SetAPIKey(t string) {
-	h.apiKey = t
-}
-
-func NewHttpClient(ak string) *httpClient {
-	cl := http.Client{
-		Timeout: defaultTimeout,
+// NewHttpClient creates a new instance of httpClient
+func NewHttpClient(apiKey string) *httpClient {
+	return &httpClient{
+		apiKey:  apiKey,
+		baseURL: defaultBaseURL,
+		httpcl:  &http.Client{Timeout: defaultTimeout},
 	}
-
-	return &httpClient{httpcl: &cl, apiKey: ak}
 }
