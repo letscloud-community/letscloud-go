@@ -2,7 +2,6 @@ package letscloud
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"reflect"
 	"strings"
@@ -35,8 +34,8 @@ func validateStruct(val interface{}) error {
 		splittedTags := splitText(jsonTag)
 
 		if v.Field(i).IsZero() && !contains(splittedTags, "omitempty") {
-			return errors.New(fmt.Sprintf("field %s [type %s with tag %s] contains empty value",
-				t.Field(i).Name, v.Field(i).Kind(), t.Field(i).Tag))
+			return fmt.Errorf("field %s [type %s with tag %s] contains empty value",
+				t.Field(i).Name, v.Field(i).Kind(), t.Field(i).Tag)
 		}
 	}
 

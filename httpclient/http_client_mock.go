@@ -77,6 +77,18 @@ func (mr *MockRequesterMockRecorder) SetTimeout(d interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetTimeout", reflect.TypeOf((*MockRequester)(nil).SetTimeout), d)
 }
 
+// SetBaseURL mocks base method
+func (m *MockRequester) SetBaseURL(url string) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "SetBaseURL", url)
+}
+
+// SetBaseURL indicates an expected call of SetBaseURL
+func (mr *MockRequesterMockRecorder) SetBaseURL(url interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetBaseURL", reflect.TypeOf((*MockRequester)(nil).SetBaseURL), url)
+}
+
 // SetAPIKey mocks base method
 func (m *MockRequester) SetAPIKey(t string) {
 	m.ctrl.T.Helper()
