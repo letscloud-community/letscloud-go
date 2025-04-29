@@ -540,8 +540,9 @@ func TestClient_LocationPlans(t *testing.T) {
 	plansResp, _ := json.Marshal(domains.GetLocationPlansResponse{
 		CommonResponse: domains.CommonResponse{
 			Success: true,
+			Status: 200,
 		},
-		Data: plans,
+		Data: mockPlans,
 	})
 
 	mclient.EXPECT().NewRequest(gomock.Any(), gomock.Any(), gomock.Any()).Return(new(http.Request), nil)
